@@ -1,10 +1,19 @@
+/****************************************************************************** *
+ * ITE5315 – Assignment 2
+ * *
+ * I declare that this assignment is my own work in accordance with Humber Academic Policy.
+ * * No part of this assignment has been copied manually or electronically from any other source
+ * * (including web sites) or distributed to other students.
+ * * * Name: ABHAY CHADHA Student ID: N01581911 Date: 5th March 2024
+ *
+ * * * ******************************************************************************/
 var express = require("express");
 var path = require("path");
 var app = express();
 const fs = require("fs");
 const exphbs = require("express-handlebars");
 //Setting up the port that the Express.js server will listen on
-const port = process.env.port || 3000; 
+const port = process.env.port || 3000;
 // Middleware for us to use our staic files that are insiide public
 app.use(express.static(path.join(__dirname, "public")));
 // Middleware to parse incoming request bodies encoded in URL-encoded format
@@ -14,7 +23,7 @@ app.engine(
   ".hbs",
   exphbs.engine({
     extname: ".hbs",
-    helpers: { 
+    helpers: {
       matchID: function (val1, val2) {
         if (val1 == val2) return true;
         else return false;
@@ -33,7 +42,7 @@ app.engine(
       },
       equal: function (a, b) {
         return a === b;
-      }
+      },
     },
   })
 );
@@ -41,7 +50,7 @@ app.engine(
 app.set("view engine", "hbs");
 
 // Set the views directory for both engines
-app.set('views', path.join(__dirname, 'views'));
+app.set("views", path.join(__dirname, "views"));
 
 //accessing the json file
 fs.readFile("datasetB.json", (err, data) => {
@@ -67,12 +76,12 @@ app.get("/data", function (req, res) {
 });
 
 app.get("/search/prID", function (req, res) {
-  res.render("asinForm");
+  res.render("asin_Form");
 });
 
 app.post("/search/prID", function (req, res) {
   let asin = req.body.asin;
-  res.render("asinResult", {
+  res.render("asin_Result", {
     ProductId: asin,
     Json: mydata,
   });
@@ -84,7 +93,7 @@ app.get("/data/title", function (req, res) {
 
 app.post("/data/title", function (req, res) {
   let title = req.body.title;
-  res.render("titleResult", {
+  res.render("title_Result", {
     Title: title,
     Json: mydata,
   });
@@ -103,20 +112,24 @@ app.get("/allData/products-with-zero-reviews/if-helper", function (req, res) {
     data: top500Data,
   });
 });
-app.get("/allData/products-with-zero-reviews/custom-helper", function (req, res) {
-  const top500Data = mydata.slice(0, 500);
-  res.render("allData_zero_reviews_custom_helper", {
-    data: top500Data,
-  });
-});
-app.get("/allData/products-with-zero-reviews/table-row-colour", function (req, res) {
-  const top500Data = mydata.slice(0, 500);
-  res.render("allData_zero_reviews_custom_helper_table_row_colour", {
-    data: top500Data,
-  });
-});
-
-
+app.get(
+  "/allData/products-with-zero-reviews/custom-helper",
+  function (req, res) {
+    const top500Data = mydata.slice(0, 500);
+    res.render("allData_zero_reviews_custom_helper", {
+      data: top500Data,
+    });
+  }
+);
+app.get(
+  "/allData/products-with-zero-reviews/table-row-colour",
+  function (req, res) {
+    const top500Data = mydata.slice(0, 500);
+    res.render("allData_zero_reviews_custom_helper_table_row_colour", {
+      data: top500Data,
+    });
+  }
+);
 
 app.get("*", function (req, res) {
   res.render("error", { title: "Error", message: "Wrong Route" });
