@@ -66,13 +66,11 @@ app.get("/", function (req, res) {
 });
 
 app.get("/users", function (req, res) {
-  res.send("respond with a resource");
+  res.render("users");
 });
 
 app.get("/data", function (req, res) {
-  res.render("data", {
-    data: mydata,
-  });
+  res.render("data");
 });
 
 app.get("/search/prID", function (req, res) {

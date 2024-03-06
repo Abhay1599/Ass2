@@ -1,42 +1,72 @@
-<form method="POST" action="/data/title">
-    <label for="title">Title</label>
-    <input type="text" name="title" placeholder="Enter Title"> <br><br>
-    <input type="Submit" name="Search">
-    <br><br>
-    {{#if Title}}
-    <h4>List of Products including title '{{Title}}'</h4>
-    <table border="1" class="dataTable">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>Product Search by Title</title>
+</head>
+<body>
+
+<div class="container mt-5">
+  <form method="POST" action="/data/title" class="needs-validation" novalidate>
+    <div class="form-group">
+      <label for="title">Title</label>
+      <div class="input-group">
+        <input type="text" name="title" class="form-control" id="title" placeholder="Enter Title" required>
+        <div class="invalid-feedback">
+          Please enter a title.
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+
+  {{#if Title}}
+    <h4 class="mt-4">List of Products including title '{{Title}}'</h4>
+    <table class="table mt-3">
+      <thead class="thead-dark">
         <tr>
-            <th>asin</th>
-            <th>Title</th>
-            <th>Image</th>
-            <th>Stars</th>
-            <th>Reviews</th>
-            <th>Price</th>
-            <th>List Price</th>
-            <th>Category Name</th>
-            <th>Is Best Seller</th>
-            <th>Last Month Sale</th>
+          <th>ASIN</th>
+          <th>Title</th>
+          <th>Image</th>
+          <th>Stars</th>
+          <th>Reviews</th>
+          <th>Price</th>
+          <th>List Price</th>
+          <th>Category Name</th>
+          <th>Is Best Seller</th>
+          <th>Last Month Sale</th>
         </tr>
-    {{#each Json}}
-           {{#if (matchTitle this.title ../Title)}}
-                <tr>
-                    <td>{{this.asin}}</td>
-                    <td>{{this.title}}</td>
-                    <td>
-                    <img src={{this.imgUrl}} alt="" />
-                    </td>
-                    <td>{{this.stars}}</td>
-                    <td>{{this.reviews}}</td>
-                    <td>{{this.price}}</td>
-                    <td>{{this.listPrice}}</td>
-                    <td>{{this.categoryName}}</td>
-                    <td>{{this.isBestSeller}}</td>
-                    <td>{{this.boughtInLastMonth}}</td>
-                </tr>
-            {{/if}}
-    {{/each}}
-{{else}}
-    <h5 class="error">Sorry! Title should not be empty</h5>
-{{/if}}
-</table>
+      </thead>
+      <tbody>
+        {{#each Json}}
+          {{#if (matchTitle this.title ../Title)}}
+            <tr>
+              <td>{{this.asin}}</td>
+              <td>{{this.title}}</td>
+              <td>
+                <img src="{{this.imgUrl}}" alt="Product Image" class="img-fluid" />
+              </td>
+              <td>{{this.stars}}</td>
+              <td>{{this.reviews}}</td>
+              <td>{{this.price}}</td>
+              <td>{{this.listPrice}}</td>
+              <td>{{this.categoryName}}</td>
+              <td>{{this.isBestSeller}}</td>
+              <td>{{this.boughtInLastMonth}}</td>
+            </tr>
+          {{/if}}
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <h5 class="error mt-3">Sorry! Title should not be empty</h5>
+  {{/if}}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
